@@ -5,6 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+//AvailableItemsFileManager.bid("someUs3r", "basketball", "newBidder", "15.00");
+//AvailableItemsFileManager.advertise("username", "soccerball", "", "5", "55.00");
+//AvailableItemsFileManager.decAuctionDays();
+
 public class AvailableItemsFileManager {
 	
 	private static String filePath = "availableitems.txt";
