@@ -14,7 +14,7 @@ public class AvailableItemsFileManager {
 	private static String filePath = "availableitems.txt";
 	private static File file = new File(filePath);
 	
-	private static String outFilePath = "testAvailableItems.txt";
+	private static String outFilePath = "availableitems.txt";
 	private static File outFile = new File(outFilePath);
 	
 	// updates bid on item in available items
@@ -53,11 +53,11 @@ public class AvailableItemsFileManager {
 	// adds new item to available items
 	public static void advertise(String itemName, String sellerName, String buyerName, String daysLeft, String startingBid) {
 		// generate new line
-		String str = "\n" + addSpaces(itemName, 20)
+		String str = addSpaces(itemName, 20)
 				+ addSpaces(sellerName, 16)
 				+ addSpaces(buyerName, 16)
 				+ formatDaysLeft(daysLeft) + " "
-				+ formatAmount(startingBid);
+				+ formatAmount(startingBid) + "\n";
 		
 		// append new line to available items file
 		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFilePath), StandardOpenOption.APPEND)) {
@@ -110,10 +110,10 @@ public class AvailableItemsFileManager {
 			String currentBid = splitString[4];
 			
 			// subtract one from previous daysLeft and cast to string
-			String newDaysLeft = formatDaysLeft(Integer.parseInt(daysLeft));
-			
+			String newDaysLeft = formatDaysLeft(Integer.parseInt(daysLeft) - 1);
+			System.out.println(formatDaysLeft("0"));
 			// if daysLeft != 0, decrease daysLeft
-			if(daysLeft != formatDaysLeft("0")) {
+			if(!daysLeft.equals(formatDaysLeft("0"))) {
 				sb.append(addSpaces(itemName, 20) 
 						+ addSpaces(sellerName, 16)
 						+ addSpaces(buyerName, 16)
@@ -122,6 +122,7 @@ public class AvailableItemsFileManager {
 						+ "\n");
 			// else, leave at 0
 			}else {
+				System.out.println("here");
 				sb.append(st + "\n");
 			}
 			i++;

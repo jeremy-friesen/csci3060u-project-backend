@@ -25,7 +25,7 @@ public class Main {
 		}
 	}
 	
-	public static void parseLine(String line){
+	public static void parseLine(String line) throws Exception{
 		// TODO
 		String transactionType = line.substring(0, 2);
 		String username;
@@ -58,19 +58,19 @@ public class Main {
 			case "03":
 				itemName = line.substring(3, 22);
 				seller = line.substring(23, 38);
-				duration = Integer.parseInt(line.substring(39, 42));
-				minBid = Float.valueOf(line.substring(43, 49));
+				String daysLeft = line.substring(39, 42);
+				String startingBid = line.substring(43, 49);
 				
-				AvailableItemsFileManager.advertise(seller, itemName, minBid, duration);
+				AvailableItemsFileManager.advertise(itemName, seller, "", daysLeft, startingBid);
 				break;
 			//bid	
 			case "04":
 				itemName = line.substring(3, 22);
 				seller = line.substring(23, 38);
 				buyer = line.substring(39, 54);
-				credits = Float.valueOf(line.substring(55, 61));
+				String cred = line.substring(55, 61);
 				
-				AvailableItemsFileManager.bid(seller, itemName, buyer, credits);
+				AvailableItemsFileManager.bid(seller, itemName, buyer, cred);
 				break;
 			//refund	
 			case "05":
