@@ -14,6 +14,9 @@ public class AvailableItemsFileManager {
 	private static String filePath = "availableitems.txt";
 	private static File file = new File(filePath);
 	
+	private static String outFilePath = "testAvailableItems.txt";
+	private static File outFile = new File(outFilePath);
+	
 	// updates bid on item in available items
 	public static void bid(String seller, String itemName, String buyer, String bidAmount) throws Exception{
 		BufferedReader br = new BufferedReader(new FileReader(file));
@@ -27,11 +30,10 @@ public class AvailableItemsFileManager {
 			String currentItemName = splitString[0];
 			String currentSellerName = splitString[1];
 			String currentDaysLeft = splitString[3];
-			
 			// if both seller name and item name match, return index
 			if(seller.equals(currentSellerName) && itemName.equals(currentItemName)) {
-				sb.append(addSpaces(currentItemName, 20) 
-						+ addSpaces(currentSellerName, 16) 
+				sb.append(addSpaces(currentItemName, 20)
+						+ addSpaces(currentSellerName, 16)
 						+ addSpaces(buyer, 16)
 						+ formatDaysLeft(currentDaysLeft) + " "
 						+ formatAmount(bidAmount)
@@ -43,7 +45,7 @@ public class AvailableItemsFileManager {
 		}
 		br.close();
 		
-		FileOutputStream fileOut = new FileOutputStream(file);
+		FileOutputStream fileOut = new FileOutputStream(outFile);
         fileOut.write(sb.toString().getBytes());
         fileOut.close();
 	}
@@ -58,7 +60,7 @@ public class AvailableItemsFileManager {
 				+ formatAmount(startingBid);
 		
 		// append new line to available items file
-		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath), StandardOpenOption.APPEND)) {
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFilePath), StandardOpenOption.APPEND)) {
 		    writer.write(str);
 		} catch (IOException ioe) {
 		    System.err.format("IOException: %s%n", ioe);
@@ -68,7 +70,7 @@ public class AvailableItemsFileManager {
 	// format string to add trailing spaces
 	private static String addSpaces(String str, int numChars) {
 		int len = str.length();
-		System.out.println("\"" + str + (new String(new char[numChars - len]).replace("\0", " ") + "\""));
+		//System.out.println("\"" + str + (new String(new char[numChars - len]).replace("\0", " ") + "\""));
 		return str + (new String(new char[numChars - len]).replace("\0", " "));
 	}
 	
@@ -113,7 +115,7 @@ public class AvailableItemsFileManager {
 			// if daysLeft != 0, decrease daysLeft
 			if(daysLeft != formatDaysLeft("0")) {
 				sb.append(addSpaces(itemName, 20) 
-						+ addSpaces(sellerName, 16) 
+						+ addSpaces(sellerName, 16)
 						+ addSpaces(buyerName, 16)
 						+ newDaysLeft + " "
 						+ formatAmount(currentBid)
@@ -127,7 +129,7 @@ public class AvailableItemsFileManager {
 		br.close();
 		
 		// replace file with new StringBuffer
-		FileOutputStream fileOut = new FileOutputStream(file);
+		FileOutputStream fileOut = new FileOutputStream(outFilePath);
         fileOut.write(sb.toString().getBytes());
         fileOut.close();
 	}

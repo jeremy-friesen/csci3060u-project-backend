@@ -1,0 +1,2 @@
+basketball          someUs3r        newBidder       005 015.00
+sneakers            exampleUsername someBidder      020 005.00
