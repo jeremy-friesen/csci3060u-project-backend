@@ -1,6 +1,6 @@
 package lib;
 import java.io.*;
-//import java.util.*;
+import java.util.*;
 
 
 class CurrentUserAccountsManager {
@@ -122,13 +122,12 @@ class CurrentUserAccountsManager {
 	int refund(String seller, String buyer, float amount){
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
-			BufferedWriter bw = new BufferedWriter(fw);
+			boolean accountFound = false;
 			
 			// iterate through file
-			String line = reader.readLine();
-			while(line != null){
+			while(in.hasNextLine()){
+				String line = in.nextLine();
 				String []accData = new String[3];
 				
 				// get data
@@ -147,11 +146,7 @@ class CurrentUserAccountsManager {
 					accData[2] = "" + (Float.valueOf(accData[2]) - amount);
 					fw.write(accData[0] + " " + accData[1] + " " + accData[2] +"\n");
 				}
-				line = reader.readLine();
 			}
-			
-			reader.close();
-			bw.close();
 		} catch (Exception e){
 			System.out.println(e.getStackTrace());
 			return(-1);

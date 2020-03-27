@@ -1,6 +1,6 @@
 package lib;
 import java.io.*;
-//import java.util.*;
+import java.util.*;
 
 
 class CurrentUserAccountsManager {
@@ -149,9 +149,6 @@ class CurrentUserAccountsManager {
 				}
 				line = reader.readLine();
 			}
-			
-			reader.close();
-			bw.close();
 		} catch (Exception e){
 			System.out.println(e.getStackTrace());
 			return(-1);
