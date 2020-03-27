@@ -5,7 +5,7 @@ import java.io.FileReader;
 
 public class Main {
 	static String filePath = "dailytransactions.txt";
-	static CurrentUserAccountsManager cu;
+	static CurrentUserAccountsManager cu = new CurrentUserAccountsManager("currentusers.txt");
 	
 	public static void main(String[] args) {
 		/*if(args.length > 0) {
@@ -34,8 +34,6 @@ public class Main {
 		String seller;
 		String buyer;
 		String itemName;
-		int duration;
-		float minBid;
 		
 		switch(transactionType){
 			//add	
@@ -44,7 +42,7 @@ public class Main {
 				accType = line.substring(19, 22);
 				credits = Float.valueOf(line.substring(23, 32));
 				
-				cu.addUser(username, "placeholderPassword", accType, credits);
+				CurrentUserAccountsManager.addUser(username, "placeholderPassword", accType, credits);
 				break;
 			//delete
 			case "02":
@@ -52,7 +50,7 @@ public class Main {
 				accType = line.substring(19, 22);
 				credits = Float.valueOf(line.substring(23, 32));
 				
-				cu.deleteUser(username);
+				CurrentUserAccountsManager.deleteUser(username);
 				break;
 			//advertise
 			case "03":
@@ -78,7 +76,7 @@ public class Main {
 				seller = line.substring(19, 34);
 				credits = Float.valueOf(line.substring(35, 44));
 				
-				cu.refund(seller, buyer, credits);
+				CurrentUserAccountsManager.refund(seller, buyer, credits);
 				break;
 			//addcredit
 			case "06":
@@ -86,7 +84,7 @@ public class Main {
 				accType = line.substring(19, 22);
 				credits = Float.valueOf(line.substring(23, 32));
 				
-				cu.addCredit(username, credits);
+				CurrentUserAccountsManager.addCredit(username, credits);
 		}
 	}
 

@@ -3,16 +3,14 @@ import java.io.*;
 //import java.util.*;
 
 
-class CurrentUserAccountsManager {
-	String newUserAccount;
-	String mainUserAccount;
+public class CurrentUserAccountsManager {
+	static String mainUserAccount;
 	
-	CurrentUserAccountsManager(String newAcc, String mainAcc){
-		newUserAccount = newAcc;
+	public CurrentUserAccountsManager(String mainAcc){
 		mainUserAccount = mainAcc;
 	}
 	
-	int addUser(String user, String pass, String accType, float credits){
+	public static int addUser(String user, String pass, String accType, float credits){
 		
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);
@@ -41,8 +39,14 @@ class CurrentUserAccountsManager {
 			FileWriter fw = new FileWriter(new File(mainUserAccount), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			
+			String creditStr = String.format("%.2f", credits);
+			
+			while(creditStr.length() < 9){
+				creditStr = "0" + creditStr;
+			}
+
 			// write user info into account file
-			bw.write(user + " " + accType + " " + credits +"\n");
+			bw.write(user + " " + accType + " " + creditStr +"\n");
 			bw.close();
 		} catch (Exception e){
 			System.out.println(e.getStackTrace());
@@ -51,15 +55,14 @@ class CurrentUserAccountsManager {
 		return(0);
 	}
 	
-	int deleteUser(String user){
+	public static int deleteUser(String user){
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
-			BufferedWriter bw = new BufferedWriter(fw);
-			
+			String newData = "";
 			// iterate through file
 			String line = reader.readLine();
+
 			while(line != null){
 				String []accData = new String[3];
 				
@@ -70,10 +73,16 @@ class CurrentUserAccountsManager {
 				
 				// if not user, write the line back into file
 				if(!accData[0].equals(user)){
-					fw.write(accData[0] + " " + accData[1] + " " + accData[2] +"\n");
-				}
+				//	System.out.println("User not found");
+					newData += accData[0] + " " + accData[1] + " " + accData[2] +"\n";
+				}/* else{
+					System.out.println("User found");
+				}*/
 				line = reader.readLine();
 			}
+			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
+			BufferedWriter bw = new BufferedWriter(fw);
+			fw.write(newData);
 			reader.close();
 			bw.close();
 		} catch (Exception e){
@@ -83,12 +92,11 @@ class CurrentUserAccountsManager {
 		return(0);
 	}
 	
-	int addCredit(String user,float amount){
+	public static int addCredit(String user,float amount){
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
-			BufferedWriter bw = new BufferedWriter(fw);
+			String newData = "";
 			
 			// iterate through file
 			String line = reader.readLine();
@@ -102,29 +110,45 @@ class CurrentUserAccountsManager {
 				
 				// if user is found, add the credits to his account
 				if(accData[0].equals(user)){
-					accData[2] = "" + (Float.valueOf(accData[2]) + amount);
-					bw.write(accData[0] + " " + accData[1] + " " + accData[2] +"\n");
-					reader.close();
-					bw.close();
-					return(0);
+					if(Float.valueOf(accData[2]) + amount >= 1000000){
+						System.out.println("ERROR: Buyer cannot have over 999999.99 credits");
+						reader.close();
+						return(-1);
+					}
+					accData[2] = "" + String.format("%.2f", Float.valueOf(accData[2]) + amount);
+					
+					while(accData[2].length() < 9){
+						accData[2] = "0" + accData[2];
+					}
+					
+					newData += accData[0] + " " + accData[1] + " " + accData[2] +"\n";
+				} else {
+					newData += line + "\n";
 				}
 				line = reader.readLine();
 			}
+			
+			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			bw.write(newData);
+			
 			bw.close();
 			reader.close();
-			return(-1);
+			return(0);
 		} catch (Exception e){
 			System.out.println(e.getStackTrace());
 			return(-1);
 		}
 	}
 	
-	int refund(String seller, String buyer, float amount){
+	public static int refund(String seller, String buyer, float amount){
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			FileWriter fw = new FileWriter(new File(mainUserAccount), false);
-			BufferedWriter bw = new BufferedWriter(fw);
+			boolean sellerFound = false;
+			boolean buyerFound = false;
+			String newData = "";
 			
 			// iterate through file
 			String line = reader.readLine();
@@ -138,20 +162,45 @@ class CurrentUserAccountsManager {
 				
 				// if buyer found, add amount into his account
 				if(accData[0].equals(buyer)){
-					accData[2] = "" + (Float.valueOf(accData[2]) + amount);
-					fw.write(accData[0] + " " + accData[1] + " " + accData[2] +"\n");
-				}
+					if(Float.valueOf(accData[2]) + amount >= 1000000){
+						System.out.println("ERROR: Buyer cannot have over 999999.99 credits");
+						reader.close();
+						return(-1);
+					}
+					accData[2] = "" + String.format("%.2f", Float.valueOf(accData[2]) + amount);
+					while(accData[2].length() < 9){
+						accData[2] = "0" + accData[2];
+					}
+					buyerFound = true;
+				} else 
 				
 				// if seller found, subtract amount from his account
 				if(accData[0].equals(seller)){
-					accData[2] = "" + (Float.valueOf(accData[2]) - amount);
-					fw.write(accData[0] + " " + accData[1] + " " + accData[2] +"\n");
+					if(Float.valueOf(accData[2]) - amount < 0){
+						System.out.println("ERROR: Seller cannot have negative credits");
+						reader.close();
+						return(-1);
+					}
+					accData[2] = "" + String.format("%.2f", Float.valueOf(accData[2]) - amount);
+					while(accData[2].length() < 9){
+						accData[2] = "0" + accData[2];
+					}
+					sellerFound = true;
 				}
+				
+				newData += accData[0] + " " + accData[1] + " " + accData[2] +"\n";
 				line = reader.readLine();
 			}
 			
+			if(sellerFound && buyerFound){
+				FileWriter fw = new FileWriter(new File(mainUserAccount), false);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(newData);
+				bw.close();
+			} else {
+				System.out.println("ERROR: Buyer and/or Seller not found");
+			}
 			reader.close();
-			bw.close();
 		} catch (Exception e){
 			System.out.println(e.getStackTrace());
 			return(-1);
