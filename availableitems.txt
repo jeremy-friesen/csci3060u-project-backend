@@ -1,3 +1,2 @@
-basketball          someUs3r        bidder          004 010.00
-sneakers            exampleUsername someBidder      019 005.00
-newItem             sellerName      buyerName       0-1 100.00
+basketball          someUs3r        newBidder       005 012.50
+sneakers            exampleUsername someBidder      020 005.00

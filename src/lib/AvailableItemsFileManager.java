@@ -22,6 +22,11 @@ public class AvailableItemsFileManager {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		StringBuffer sb = new StringBuffer();
 		
+		seller = seller.split("\\s+")[0];
+		itemName = itemName.split("\\s+")[0];
+		buyer = buyer.split("\\s+")[0];
+		bidAmount = bidAmount.split("\\s+")[0];
+		
 		// read in and parse each line
 		String st;
 		int i = 0;
@@ -30,8 +35,10 @@ public class AvailableItemsFileManager {
 			String currentItemName = splitString[0];
 			String currentSellerName = splitString[1];
 			String currentDaysLeft = splitString[3];
+			
 			// if both seller name and item name match, return index
 			if(seller.equals(currentSellerName) && itemName.equals(currentItemName)) {
+				System.out.println("in if");
 				sb.append(addSpaces(currentItemName, 20)
 						+ addSpaces(currentSellerName, 16)
 						+ addSpaces(buyer, 16)
@@ -83,7 +90,8 @@ public class AvailableItemsFileManager {
 	// format daysLeft to add preceding 0's
 	public static String formatDaysLeft(String str) {
 		int len = str.length();
-		return (new String(new char[3 - len]).replace("\0", "0")) + str;
+		String retStr = new String(new char[3 - len]).replace("\0", "0");
+		return retStr + str;
 	}
 	
 	// format daysLeft to parse int and add preceding 0's
@@ -111,7 +119,7 @@ public class AvailableItemsFileManager {
 			
 			// subtract one from previous daysLeft and cast to string
 			String newDaysLeft = formatDaysLeft(Integer.parseInt(daysLeft) - 1);
-			System.out.println(formatDaysLeft("0"));
+
 			// if daysLeft != 0, decrease daysLeft
 			if(!daysLeft.equals(formatDaysLeft("0"))) {
 				sb.append(addSpaces(itemName, 20) 
@@ -122,7 +130,6 @@ public class AvailableItemsFileManager {
 						+ "\n");
 			// else, leave at 0
 			}else {
-				System.out.println("here");
 				sb.append(st + "\n");
 			}
 			i++;
@@ -134,5 +141,7 @@ public class AvailableItemsFileManager {
         fileOut.write(sb.toString().getBytes());
         fileOut.close();
 	}
+	
+	
 	
 }

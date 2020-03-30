@@ -10,7 +10,7 @@ public class CurrentUserAccountsManager {
 		mainUserAccount = mainAcc;
 	}
 	
-	public static int addUser(String user, String pass, String accType, float credits){
+	public static int addUser(String user, String accType, float credits){
 		
 		try{
 			FileInputStream in = new FileInputStream(mainUserAccount);

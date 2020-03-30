@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-class AvailableItemsFileManagerTest {	
+class AvailableItemsFileManagerTest {
 		
 	void initTest() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("availableitems.txt");
@@ -67,8 +67,6 @@ class AvailableItemsFileManagerTest {
 		
 		assert(condition);
 	}
-	
-	
 	
 	String readFile(String filePath) throws IOException {
 		File file = new File(filePath);

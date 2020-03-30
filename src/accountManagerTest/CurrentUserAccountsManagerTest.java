@@ -22,7 +22,7 @@ public class CurrentUserAccountsManagerTest {
 		return str;
 	}
 	
-	void initTest() throws IOException{
+	void initTest() throws IOException {
 		FileOutputStream out = new FileOutputStream("currentusers.txt");
 		String str = "Bobby123        FS 001000.00\n" + 
 					 "Johnathan       AA 500000.00\n" +
@@ -36,8 +36,8 @@ public class CurrentUserAccountsManagerTest {
 	@Test
 	public void testAddUser() throws Exception{
 		initTest();
-		CurrentUserAccountsManager.addUser("Steve          ", "password321", "AA", 800.00f);
-		CurrentUserAccountsManager.addUser("Bobby123       ", "pw4123", "FS", 1000.00f);
+		CurrentUserAccountsManager.addUser("Steve          ", "AA", 800.00f);
+		CurrentUserAccountsManager.addUser("Bobby123       ", "FS", 1000.00f);
 		
 		String str = readFile("currentusers.txt");
 		

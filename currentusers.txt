@@ -1,4 +1,3 @@
-fullUsername    FS 001000.00
-buyUsername     BS 009999.99
-sellUsername    SS 000000.00
-adminUsername   AA 000050.00
+Bobby123        FS 001020.00
+Johnathan       AA 500000.00
+Kragg           SS 000005.00
