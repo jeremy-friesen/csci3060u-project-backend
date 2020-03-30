@@ -38,7 +38,6 @@ public class AvailableItemsFileManager {
 			
 			// if both seller name and item name match, return index
 			if(seller.equals(currentSellerName) && itemName.equals(currentItemName)) {
-				System.out.println("in if");
 				sb.append(addSpaces(currentItemName, 20)
 						+ addSpaces(currentSellerName, 16)
 						+ addSpaces(buyer, 16)

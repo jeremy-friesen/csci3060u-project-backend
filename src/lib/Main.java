@@ -36,7 +36,7 @@ public class Main {
 			//add	
 			case "01":
 				username = line.substring(3, 18);
-				accType = line.substring(19, 22);
+				accType = line.substring(19, 21);
 				credits = Float.valueOf(line.substring(22, 31));
 				
 				CurrentUserAccountsManager.addUser(username, accType, credits);
@@ -44,7 +44,7 @@ public class Main {
 			//delete
 			case "02":
 				username = line.substring(3, 18);
-				accType = line.substring(19, 22);
+				accType = line.substring(19, 21);
 				credits = Float.valueOf(line.substring(22, 31));
 				
 				CurrentUserAccountsManager.deleteUser(username);
@@ -78,7 +78,7 @@ public class Main {
 			//addcredit
 			case "06":
 				username = line.substring(3, 18);
-				accType = line.substring(19, 22);
+				accType = line.substring(19, 21);
 				credits = Float.valueOf(line.substring(22, 31));
 				
 				CurrentUserAccountsManager.addCredit(username, credits);

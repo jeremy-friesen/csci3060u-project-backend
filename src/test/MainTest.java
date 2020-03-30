@@ -52,7 +52,7 @@ class MainTest {
 		{"currentusers.txt", 
 			"Bobby123        FS 001020.00\n" +
 			"Johnathan       AA 500000.00\n" +
-			"Kragg           SS 000110.00\n"
+			"Kragg           SS 000105.00\n"
 		},
 	};
 	
@@ -86,10 +86,9 @@ class MainTest {
 	}
 	
 	void assertFileContent(String fileName, String fileContent) throws IOException{
-		System.out.println("here");
 		String str = readFile(fileName);
-		System.out.println("File Content:\n" + str);
-		System.out.println("Test Content:\n" + fileContent);
+		//System.out.println("File Content:\n" + str);
+		//System.out.println("Test Content:\n" + fileContent);
 		boolean condition = (str.equals(fileContent));
 		assert(condition);
 	}
@@ -118,7 +117,6 @@ class MainTest {
 	// bid
 	@Test
 	void testParseBid() throws Exception{
-		System.out.println("Bid:");
 		initFiles();
 		Main.parseLine(lines[3]);
 		assertFileContent(output[3][0], output[3][1]);
